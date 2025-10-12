@@ -1,0 +1,132 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Packs & Offres Spéciales</title>
+    <style>
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        .title-container {
+            position: relative;
+            padding: 2rem 0;
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+        .title-container:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #2563eb);
+            border-radius: 3px;
+        }
+        .title-container h1 {
+            font-size: 1.875rem;
+            line-height: 2.25rem;
+            font-weight: bold;
+            color: #1e293b;
+        }
+        @media (min-width: 768px) {
+            .title-container h1 {
+                font-size: 2.25rem;
+                line-height: 2.5rem;
+            }
+        }
+
+        .pack-ddpai-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            margin: 2px 0 0 0;
+            padding: 0;
+        }
+
+        .pack-ddpai-container .posters {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            padding: 0;
+            flex-wrap: nowrap; 
+        }
+
+        .pack-ddpai-container .poster {
+            flex: 1 1 50%; 
+            max-width: 50%;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .pack-ddpai-container .poster:hover {
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4), 0 0 40px rgba(96, 165, 250, 0.3);
+            z-index: 100;
+        }
+
+        .pack-ddpai-container .poster img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+            transition: all 0.4s ease;
+        }
+
+        .pack-ddpai-container .poster:hover img {
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 765px) {
+            body {
+                padding: 10px;
+            }
+
+            .pack-ddpai-container {
+                gap: 15px;
+                margin-top: 10px;
+            }
+
+            .pack-ddpai-container .posters {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                padding: 0;
+            }
+
+            .pack-ddpai-container .poster {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title-container">
+        <h1>Nos Packs & Offres Spéciales</h1>
+    </div>
+
+    <div class="pack-ddpai-container">
+        <div class="posters">
+            <a href="https://go-ddpai.ma/products/pack-securite-z50-pro-gps?variant=50495901925656" target="_blank" class="poster">
+                <img src="https://cdn.shopify.com/s/files/1/0937/1405/5448/files/DDPAI_Section_2.png?v=1753985402" alt="DDPAI Security Pack Z50 Pro GPS">
+            </a>
+
+            <a href="https://go-ddpai.ma/products/pack-premium-z50-pro?variant=." target="_blank" class="poster">
+                <img src="https://cdn.shopify.com/s/files/1/0937/1405/5448/files/DDPAI_Section_1.png?v=1753985384" alt="DDPAI Premium Pack Z50 Pro">
+            </a>
+        </div>
+    </div>
+</body>
+</html>
