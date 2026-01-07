@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Page</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    .lp_block {
+      position: relative;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+    }
+
+    .lp_block img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .lp_video_over_image {
+      position: absolute;
+      z-index: 2;
+      transform: translate(-50%, -50%);
+    }
+
+    .lp_video_desktop {
+      top: 30%;
+      left: 25%;
+      width: 45%;
+      height: 40%;
+    }
+
+    .lp_video_over_image iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 12px;
+    }
+
+    .lp_btn_container {
+      position: absolute;
+      z-index: 10;
+    }
+
+    .lp_btn_action {
+      background: #ff4757;
+      color: #fff;
+      font-size: 15px;
+      font-weight: bold;
+      padding: 18px 80px;
+      border-radius: 50px;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+      animation: lpZoom 2s ease-in-out infinite;
+      transition: all .3s;
+    }
+
+    .lp_btn_action:hover {
+      background: #ff6b7a;
+      transform: scale(1.05);
+      animation: none;
+    }
+
+    @keyframes lpZoom {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .desktop-only { display: none; }
+    .mobile-only { display: block; }
+
+    @media (min-width: 769px) {
+      .desktop-only { display: block; }
+      .mobile-only { display: none; }
+    }
+
+    .btn_section1 { bottom: 0%; left: 70%; transform: translateX(-50%); }
+    .btn_section2 { bottom: 12%; right: 30%; }
+    .btn_section3 { bottom: 15%; left: 55%; transform: translateX(-50%); }
+    .btn_section4 { bottom: 12%; right: 45%; }
+    .btn_section5 { bottom: 10%; left: 20%; transform: translateX(-50%); }
+    .btn_section6 { bottom: 41%; left: 63%; }
+    .btn_section7 { bottom: 10%; right: 52%; }
+
+ 
+    .lp_video_mobile {
+      top: 80%;
+      left: 50%;
+      width: 90%;
+      height: 40%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+
+<body>
+
+  
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L1.png?v=1765022309">
+  </section>
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L2.png?v=1765022326">
+  </section>
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L3_1.png?v=1765296489">
+  </section>
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L4_1.png?v=1765295107">
+    <div class="lp_video_over_image lp_video_mobile">
+      <iframe src="https://www.youtube.com/embed/7ycfWq2sEXQ" allowfullscreen></iframe>
+    </div>
+  </section>
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L6.png?v=1765197693">
+  </section>
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L7.png?v=1765197713">
+  </section>
+
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L8.png?v=1765197723">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L9.png?v=1765199234">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L10.png?v=1765199292">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L11.png?v=1765280827">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L12.png?v=1765280836">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L13.png?v=1765280841">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L14.png?v=1765280848">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L15.png?v=1765280968">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L16.png?v=1765280977">
+  </section>
+
+
+
+
+
+  <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L1_3.png?v=1765812328">
+    <div class="lp_btn_container btn_section1">
+      <a href="https://go-ddpai.ma/products/ddpai-n2-dual?_pos=2&_psq=n2&_ss=e&_v=1.0" class="lp_btn_action">Acheter maintenant</a>
+    </div>
+  </section>
+
+  <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L2_4.png?v=1765812332">
+   
+  </section>
+
+  <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L3_4.png?v=1765812341">
+    <div class="lp_video_over_image lp_video_desktop">
+      <iframe src="https://www.youtube.com/embed/7ycfWq2sEXQ" allowfullscreen></iframe>
+    </div>
+  
+  </section>
+
+  <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L4_2.png?v=1765812344">
+ 
+  </section>
+
+  <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L5_1.png?v=1765812351">
+    <div class="lp_btn_container btn_section5">
+      <a href="https://go-ddpai.ma/products/ddpai-n2-dual?_pos=2&_psq=n2&_ss=e&_v=1.0  " class="lp_btn_action">Acheter maintenant</a>
+    </div>
+  </section>
+
+  <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L6_1.png?v=1765812364">
+    <div class="lp_btn_container btn_section6">
+      <a href="https://go-ddpai.ma/products/ddpai-n2-dual?_pos=2&_psq=n2&_ss=e&_v=1.0 " class="lp_btn_action">Acheter maintenant</a>
+    </div>
+  </section>
+
+  <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L7_1.png?v=1765812370">
+    
+  </section>
+
+   <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L8_1.png?v=1765812385">
+  </section>
+
+</body>
+</html>
