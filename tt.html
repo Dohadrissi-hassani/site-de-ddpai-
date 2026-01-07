@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Page</title>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+
+    .lp_block {
+      position: relative;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      padding: 0;
+    }
+
+    .lp_block img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      object-fit: cover;
+    }
+
+    /* VIDEO */
+    .lp_video_over_image {
+      position: absolute;
+      z-index: 2;
+      transform: translate(-50%, -50%);
+    }
+
+    .lp_video_mobile {
+      top: 80%;
+      left: 50%;
+      width: 95%;
+      height: 40%;
+    }
+
+    .lp_video_desktop {
+      top: 30%;
+      left: 25%;
+      width: 45%;
+      height: 40%;
+    }
+
+    .lp_video_over_image iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 12px;
+      display: block;
+    }
+
+
+    .desktop-only {
+      display: none;
+    }
+
+    .mobile-only {
+      display: block;
+    }
+
+    @media (min-width: 769px) {
+      .desktop-only {
+        display: block;
+      }
+
+      .mobile-only {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L1.png?v=1765022309">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L2.png?v=1765022326">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L3_1.png?v=1765296489">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L4_1.png?v=1765295107">
+    <div class="lp_video_over_image lp_video_mobile">
+      <iframe src="https://www.youtube.com/embed/7ycfWq2sEXQ" allowfullscreen></iframe>
+    </div>
+  </section>
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L6.png?v=1765197693">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L7.png?v=1765197713">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L8.png?v=1765197723">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L9.png?v=1765199234">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L10.png?v=1765199292">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L11.png?v=1765280827">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L12.png?v=1765280836">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L13.png?v=1765280841">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L14.png?v=1765280848">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L15.png?v=1765280968">
+  </section>
+
+  <section class="lp_block mobile-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L16.png?v=1765280977">
+  </section>
+
+
+
+  <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L1_3.png?v=1765812328">
+  </section>
+
+  <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L2_4.png?v=1765812332">
+  </section>
+
+  <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L3_4.png?v=1765812341">
+    <div class="lp_video_over_image lp_video_desktop">
+      <iframe src="https://www.youtube.com/embed/7ycfWq2sEXQ" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L4_2.png?v=1765812344">
+  </section>
+
+
+
+  <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L5_1.png?v=1765812351">
+  </section>
+
+  <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L6_1.png?v=1765812364">
+  </section>
+
+  <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L7_1.png?v=1765812370">
+  </section>
+
+  <section class="lp_block desktop-only">
+    <img src="https://cdn.shopify.com/s/files/1/0580/8871/8470/files/L8_1.png?v=1765812385">
+  </section>
+
+
+</body>
+
+</html>
