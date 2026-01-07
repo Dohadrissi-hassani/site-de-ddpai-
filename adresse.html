@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trouver un magasin - KITEA (iFrame Google Maps Centré)</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 600px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+            background-color: #fff;
+        }
+
+        .sidebar {
+            width: 35%;
+            min-width: 350px;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+            border-right: 1px solid #ddd;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #000;
+            font-size: 24px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e30613;
+            padding-bottom: 10px;
+        }
+
+        .search-box select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            margin-bottom: 15px;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .search-box select:focus {
+            border-color: #e30613;
+        }
+
+        .result-count {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #444;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .store-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .store-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .store-list::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+
+        .store-list::-webkit-scrollbar-thumb:hover {
+            background-color: #a8a8a8;
+        }
+
+        .store-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            transition: all 0.2s ease;
+            border: 1px solid #eee;
+            cursor: pointer;
+        }
+
+        .store-card:hover {
+            box-shadow: 0 4px 10px rgba(227, 6, 19, 0.1);
+            border-color: #e30613;
+            transform: translateY(-2px);
+        }
+
+        .store-logo {
+            width: 60px;
+            height: 60px;
+            background-color: #e30613;
+            font-family: sans-serif;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            margin-top: 5px;
+        }
+
+        .store-info {
+            flex-grow: 1;
+        }
+
+        .store-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 4px;
+            color: #222;
+        }
+
+        .store-address {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+            margin-bottom: 4px;
+        }
+
+        .store-phone {
+            font-size: 13px;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .btn-direction,
+        .store-link {
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            border: none;
+        }
+
+        .btn-direction {
+            background-color: #e30613;
+            color: white;
+        }
+
+        .btn-direction:hover {
+            background-color: #c20510;
+        }
+
+        .store-link {
+            background-color: #fff;
+            color: #e30613;
+            border: 1px solid #e30613;
+        }
+
+        .store-link:hover {
+            background-color: #f2f2f2;
+            border-color: #c20510;
+            color: #c20510;
+        }
+
+        #map-container {
+            width: 65%;
+            height: 100%;
+        }
+
+        #google-map-iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                flex-direction: column;
+                width: 100%;
+                height: auto;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-width: auto;
+                height: auto;
+                max-height: 400px;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+            }
+
+            #map-container {
+                width: 100%;
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="sidebar">
+            <h2>Nos Magasins</h2>
+
+            <div class="search-box">
+                <select id="city-selector" onchange="filterStores()">
+                    <option value="all">Toutes les villes</option>
+                    <option value="Casablanca" selected>Casablanca</option>
+                    <option value="Marrakech">Marrakech</option>
+                    <option value="Salé Eljadida">Salé Eljadida</option>
+                    <option value="Salé">Salé</option>
+                    <option value="Kenitra">Kenitra</option>
+                    <option value="Tanger">Tanger</option>
+                    <option value="Tetouan">Tetouan</option>
+                    <option value="Agadir">Agadir</option>
+                    <option value="Fès">Fès</option>
+                    <option value="Meknès">Meknès</option>
+                    <option value="Laayoune">Laayoune</option>
+                    <option value="Oujda">Oujda</option>
+                </select>
+
+            </div>
+
+            <div class="result-count" id="count-display">Chargement...</div>
+
+            <div class="store-list" id="store-list-container">
+            </div>
+        </div>
+
+        <div id="map-container">
+            <iframe id="google-map-iframe" src="https://maps.google.com/maps?q=31.7917, -7.0926&z=5&output=embed"
+                allowfullscreen="">
+            </iframe>
+        </div>
+    </div>
+
+    <script>
+        const stores = [
+
+
+            {
+                id: 1,
+                name: "DDPAI Maroc",
+                address: "Résidence Elkenz, 45 Pl. Ahmed Mekouar, Casablanca 20250",
+                phone: "0660-492372",
+                city: "Casablanca",
+                lat: 33.61448310917436,
+                lng: -7.534643465262783,
+                link: "https://www.google.com/maps/place/DDPAI+MAROC/@33.6144345,-7.5346343,17z/data=!3m1!4b1!4m6!3m5!1s0xda7cd4850554e6b:0x9655d76a646ceb93!8m2!3d33.6144345!4d-7.5346343!16s%2Fg%2F11xm5tw3n5?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D" // Reverted to # so you can manually put the directions URL
+            },
+            {
+                id: 2,
+                name: "LUX DESIGN BY A&Z",
+                address: "46 lot assafa, Casablanca 20220",
+                phone: "0661-831298",
+                city: "Casablanca",
+                lat: 33.54773785111031,
+                lng: -7.675313692457307,
+                link: "https://www.google.com/maps?ll=33.547687,-7.675313&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=G8XF%2B3V+Casablanca"
+            },
+            {
+                id: 3,
+                name: "Comptoir Auto Radio",
+                address: "H9QQ+Q74, 9 Rue d'Amman, Casablanca 20100",
+                phone: "0522-442823",
+                city: "Casablanca",
+                lat: 33.59890432457758,
+                lng: -7.63732355410016,
+                link: "https://www.google.com/maps?ll=33.598813,-7.637312&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=H9X7%2BG3+Casablanca "
+            },
+            {
+                id: 4,
+                name: "KomforAuto",
+                address: "34, Rue Tamaarouft -Ex Alma, Casablanca 20100",
+                phone: "05222-05476",
+                city: "Casablanca",
+                lat: 33.59890432457758,
+                lng: -7.63732355410016,
+                link: "https://www.google.com/maps?ll=33.598813,-7.637312&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=H9X7%2BG3+Casablanca" // Ready for manual Google Maps Directions URL
+            },
+
+            {
+                id: 5,
+                name: "Perfect Auto",
+                address: "Rue 110 50, 20202 Casablanca, Maroc",
+                phone: "0607-311220",
+                city: "Casablanca",
+                lat: 33.5799,
+                lng: -7.6036,
+                link: "https://www.google.com/maps/place/H83F%2BP4,+Casablanca,+Maroc/@33.554313,-7.677187,3667m/data=!3m1!1e3!4m5!3m4!1s0xda7cd4778aa113b:0xd73da95ed4aa3d3c!8m2!3d33.5543125!4d-7.6771875?hl=fr-FR&entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA2OUgBUAM%3D"
+            },
+
+
+ 
+            {
+                id: 6,
+                name: "Nova Automobile - Centre de soins esthétiques automobile",
+                address: "Tissir Quartier Industriel N°8 Marrakech, Marrakesh 40000",
+                phone: "0661-675721",
+                city: "Marrakech",
+                lat: 31.680079937636194,
+                lng: -8.045105915341185,
+                link: "https://www.google.com/maps?ll=31.679313,-8.045063&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=MXH3%2BPX+Marrakech"
+            },
+     
+            {
+                id: 7,
+                name: "Electro Saada",
+                address: "Adresse av lotissement sala a j, Sala Al Jadida 11100",
+                phone: "0607-065452",
+                city: "Salé Eljadida",
+                lat: 33.99639144026688,
+                lng: -6.7309269464603245,
+                link: "https://www.google.com/maps/place/X7W9%2BFJ,+Sala+Al+Jadida,+Maroc/@33.996188,-6.730937,3648m/data=!3m1!1e3!4m5!3m4!1s0xda7403c7957d929:0xcb752b4bcfbd4655!8m2!3d33.9961875!4d-6.7309375?hl=fr-FR&entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA2OUgBUAM%3D"
+            },
+        
+            {
+                id: 8,
+                name: "Accessoire Auto Karim",
+                address: "Secteur 1, à côté de RMA assurances - Karia - Sale",
+                phone: "0667-860449",
+                city: "Salé",
+                lat: 34.02575395601799,
+                lng: -6.76465115906451,
+                link: "https://www.google.com/maps?ll=34.025562,-6.764687&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=26GP%2B64+Sal%C3%A9"
+            },
+ 
+            {
+                id: 9,
+                name: "خبير سيارات 48",
+                address: "Double voie, Village Nilo, à côté du Hammam Marseille",
+                phone: "0672-883849",
+                city: "Oujda",
+                lat: 34.670822172244385,
+                lng: -1.945973509819801,
+                link: "https://www.google.com/maps?ll=34.684571,-1.907478&z=11&t=m&hl=fr-FR&gl=US&mapclient=embed&q=Oujda"
+            },
+            // Fès :
+            {
+                id: 10,
+                name: "ZK AMG acccessoires Kandoussi",
+                address: "227F+4V7, Fès",
+                phone: "0625-132509",
+                city: "Fès",
+                lat: 34.0135706040445745,
+                lng: -4.9752850846588155,
+                link: "https://www.google.com/maps?ll=34.012788,-4.975328&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=227F%2B4V7+F%C3%A8s"
+            },
+            {
+                id: 11,
+                name: "Zk amg",
+                address: "34, Rue Tamaarouft -Ex Alma, Casablanca 20100",
+                phone: "0625-132509",
+                city: "Fès",
+                lat: 34.013641749509105,
+                lng: -4.975327999999999,
+                link: "https://www.google.com/maps?ll=34.012788,-4.975328&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=227F%2B4V7+F%C3%A8s"
+            },
+ 
+            {
+                id: 12,
+                name: "Florencia Accessoires Auto à Tanger",
+                address: "Adresse Florencia St, Tangier 90000",
+                phone: "0699-889839",
+                city: "Tanger",
+                lat: 35.757855907553164,
+                lng: -5.821312000000001,
+                link: " https://www.google.com/maps?ll=35.757438,-5.821312&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=Q54H%2BXF+Tanger"
+            },
+            {
+                id: 13,
+                name: "Artisan auto tanger",
+                address: "Adresse 19 Av. des Lavandes, Tanger 90000",
+                phone: "0664-925395",
+                city: "Tanger",
+                lat: 35.76113971459603,
+                lng: -5.835562,
+                link: "https://www.google.com/maps/place/Q567%2B7Q,+Tanger,+Maroc/@35.760687,-5.835562,3570m/data=!3m1!1e3!4m5!3m4!1s0xd0b875cf04c132d:0xccd57bb97c1eccdb!8m2!3d35.7606875!4d-5.8355625?hl=fr-FR&entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA2OUgBUAM%3D"
+            },
+            {
+                id: 14,
+                name: "Milan automobile accessories",
+                address: "Q529+VR, Tanger, Maroc",
+                phone: "0664-575655",
+                city: "Tanger",
+                lat: 35.75274524634686,
+                lng: -5.830437,
+                link: "https://www.google.com/maps?ll=35.752188,-5.830437&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=Q529%2BVR+Tanger"
+            },
+            {
+                id: 15,
+                name: "Tanger Coding & Accessories",
+                address: "Q557+HP, Tanger, Maroc",
+                phone: "0667-027029",
+                city: "Tanger",
+                lat: 35.75946037425027,
+                lng: -5.835815746023554,
+                link: "https://www.google.com/maps?ll=35.758938,-5.835687&z=15&t=h&hl=fr-FR&gl=US&mapclient=embed&q=Q557%2BHP+Tanger"
+            },
+            {
+                id: 16,
+                name: "Car Arbi Mabia Acc",
+                address: "Tanger, Maroc",
+                phone: "0664-503032",
+                city: "Tanger",
+                lat: 35.7577320675399,
+                lng: -5.833306123284963,
+                link: "https://www.google.com/maps?ll=35.763274,-5.83447&z=10&t=m&hl=fr-FR&gl=US&mapclient=embed&q=Tanger"
+            },
+     
+            {
+                id: 17,
+                name: "Chamali Achraf",
+                address: "Tetouan, Maroc",
+                phone: "0678-216181",
+                city: "Tetouan",
+                lat: 35.59080455285127,
+                lng: -5.355322939057562,
+                link: "https://www.google.com/maps?ll=35.585068,-5.366478&z=11&t=m&hl=fr-FR&gl=US&mapclient=embed&q=T%C3%A9touan"
+            },
+ 
+            {
+                id: 18,
+                name: "Auto accessoires Laayoune",
+                address: "AV BIR JDID N° 293 KHAT RAHMA, Laayoune 70000",
+                phone: "0711-911181",
+                city: "Laayoune",
+                lat: 27.142731525852277,
+                lng: -13.194494941132524,
+                link: "https://www.google.com/maps?ll=27.145783,-13.188975&z=12&t=m&hl=fr-FR&gl=US&mapclient=embed&q=AV+BIR+JDID+N%C2%B0+293+KHAT+RAHMA,+Laayoune+70000"
+            },
+            {
+                id: 19,
+                name: "Auto diag sud",
+                address: "Adresse ben zaid hay el amal 2, av oussama, Laayoune 70000",
+                phone: "0661-646087",
+                city: "Laayoune",
+                lat: 27.1278258883939,
+                lng: -13.165097423294075,
+                link: "https://www.google.com/maps?ll=27.127062,-13.165312&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=4RGM%2BRV+El+Aai%C3%BAn"
+            },
+            {
+                id: 20,
+                name: "Glass Auto & Pièces Auto Mrayzig",
+                address: "Adresse quartier industriel al hizam n 50, Laayoune 70000",
+                phone: "0661-162057",
+                city: "Laayoune",
+                lat: 27.14314626960515,
+                lng: -13.203108661364741,
+                link: "https://www.google.com/maps?ll=27.142688,-13.202937&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=4QVW%2B3R+El+Aai%C3%BAn"
+            },
+ 
+            {
+                id: 21,
+                name: "Accessoires auto agadir",
+                address: "CCCJ+G3, 80000, Maroc",
+                phone: "0664-095560",
+                city: "Agadir",
+                lat: 30.422238170352735,
+                lng: -9.569597423294077,
+                link: "https://www.google.com/maps?ll=30.421313,-9.569812&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=CCCJ%2BG3+Agadir+80000"
+            },
+            {
+                id: 22,
+                name: "Afoulki Pieces Auto et Accessoires",
+                address: "M7RG+3WH, Tiznit 85000, Maroc",
+                phone: "0661-973208",
+                city: "Agadir",
+                lat: 29.69093362244324,
+                lng: -9.722641,
+                link: "https://www.google.com/maps?ll=29.690188,-9.722641&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=M7RG%2B3WH+Tiznit+85000"
+            },
+            {
+                id: 23,
+                name: "Assafa Pièces Auto",
+                address: "N, 1 AV AL KAIRAOUNA, Tiznit 85000",
+                phone: "0661-838447",
+                city: "Agadir",
+                lat: 29.69108274626801,
+                lng: -9.722641,
+                link: "https://www.google.com/maps?ll=29.691563,-9.730812&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=M7R9%2BJM+Tiznit+85000"
+            },
+
+
+
+            {
+                id: 24,
+                name: "Maamora carrosserie",
+                address: "21 Av. Moulay Abdelazziz, Kénitra 14000",
+                phone: "05373-67900",
+                city: "Kenitra",
+                lat: 34.261147376653284,
+                lng: -6.587058253976447,
+                link: "https://www.google.com/maps?ll=34.260438,-6.587187&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=7C67%2B54+K%C3%A9nitra"
+            },
+            {
+                id: 25,
+                name: "Accessoires Autolux",
+                address: "7C5M+V4, Kénitra, Maroc",
+                phone: "0600-970498",
+                city: "Kenitra",
+                lat: 34.26050378990891,
+                lng: -6.566843677270521,
+                link: "https://www.google.com/maps?ll=34.259688,-6.567187&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=7C5M%2BV4+K%C3%A9nitra"
+            },
+            {
+                id: 26,
+                name: "Kenitra coding",
+                address: "n 2021, 151 Av. Palestine, Kénitra 14000",
+                phone: "0714-236966",
+                city: "Kenitra",
+                lat: 34.26861184786986,
+                lng: -6.561483661364738,
+                link: "https://www.google.com/maps?ll=34.267938,-6.561312&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=7C9Q%2B5F+K%C3%A9nitra"
+            },
+
+            {
+                id: 27,
+                name: "Accessoires et Carrosseries Auto YASSINE Meknes",
+                address: "Lotissement Kortoba , Imm 14 (a coté Acima, Meknès 50000",
+                phone: "0721-228148",
+                city: "Meknès",
+                lat: 33.861508727610854,
+                lng: -5.547020084658814,
+                link: "https://www.google.com/maps?ll=33.861188,-5.547063&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=VF63%2BF5+Mekn%C3%A8s"
+            },
+            {
+                id: 28,
+                name: "Amine Pièces Autos",
+                address: "44 Av. de La Gare, Meknès",
+                phone: "0679-868068",
+                city: "Meknès",
+                lat: 33.89725694443489,
+                lng: -5.538187,
+                link: "https://www.google.com/maps?ll=33.896687,-5.538187&z=15&t=m&hl=fr-FR&gl=US&mapclient=embed&q=VFW6%2BMP+Mekn%C3%A8s"
+            }
+        ];
+
+        function renderStoreList(data) {
+            const listContainer = document.getElementById('store-list-container');
+            const countDisplay = document.getElementById('count-display');
+
+            listContainer.innerHTML = '';
+            countDisplay.innerText = `${data.length} magasin(s) trouvé(s)`;
+
+            data.forEach((store) => {
+                const card = document.createElement('div');
+                card.className = 'store-card';
+
+          
+                card.onclick = () => updateMapIframe(store);
+
+                card.innerHTML = `
+                    <div class="store-logo">
+                        <span style="color:white; font-weight:bold; font-size:12px;">DDPAI</span>
+                    </div>
+                    <div class="store-info">
+                        <div class="store-title">${store.name}</div>
+                        <div class="store-address">${store.address}</div>
+                        <div class="store-phone">📞 ${store.phone}</div>
+                        
+                        <div class="action-row">
+                            <a href="${store.link}" target="_blank" class="btn-direction" onclick="event.stopPropagation()">
+                                ➤ Itinéraire
+                            </a>
+                            <button class="store-link" onclick="event.stopPropagation(); updateMapIframe(stores.find(s => s.id === ${store.id}))">
+                                Voir la zone
+                            </button>
+                        </div>
+                    </div>
+                `;
+                listContainer.appendChild(card);
+            });
+        }
+
+        function updateMapIframe(store) {
+            const iframe = document.getElementById('google-map-iframe');
+
+       
+            const newSrc = `https://maps.google.com/maps?q=${store.lat},${store.lng}&z=14&output=embed`;
+
+            iframe.src = newSrc;
+        }
+
+        function filterStores() {
+            const selectedCity = document.getElementById('city-selector').value;
+
+            let filtered = stores;
+            if (selectedCity !== 'all') {
+                filtered = stores.filter(store => store.city === selectedCity);
+            }
+
+            renderStoreList(filtered);
+
+            if (filtered.length > 0) {
+             
+
+                updateMapIframe(filtered[0]);
+            } else {
+     
+
+                document.getElementById('google-map-iframe').src = "https://maps.google.com/maps?q=31.7917, -7.0926&z=5&output=embed";
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('city-selector').value = 'Casablanca'; 
+            filterStores();
+        });
+
+    </script>
+</body>
+
+</html>
